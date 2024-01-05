@@ -45,11 +45,12 @@ const loadNotes = function () {
 
 const removeNote = function (title) {
     const notes = loadNotes();
-    console.log(title);
-
-    const searchedNote = notes.filter(function (note) {
-        return note.title === title
+    
+    const notesToKeep = notes.filter(function (note) {
+        return note.title !== title
     })
+
+    savedNotes(notesToKeep)
 
     if (searchedNote.length === 0) {
         notes.push({
