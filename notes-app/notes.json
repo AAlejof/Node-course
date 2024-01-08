@@ -1,18 +1,1 @@
-[
-    {
-        "title": "t",
-        "body": "b"
-    },
-    {
-        "title": "p",
-        "body": "b"
-    },
-    {
-        "title": "Perrito",
-        "body": "b"
-    },
-    {
-        "title": "Gatito",
-        "body": "b"
-    }
-]
+[{"title":"Perrito","body":"b"},{"title":"Gatito","body":"b"}]
