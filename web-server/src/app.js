@@ -3,32 +3,9 @@ const express = require('express');
 
 const app = express();
 const publicDirectoryPath = path.join(__dirname, '../public');
-const helpPath = path.join(__dirname, '../public/help.html');
 
 app.use(express.static(publicDirectoryPath));
-app.use(express.static(helpPath));
 
-app.get('/help', (req, res) => {
-    res.send(
-        [
-            {
-                name: 'Alejo',
-                age: 35
-            },
-            {
-                name: 'Nati',
-                age: 31
-            },
-            {
-                name: 'Celine',
-                age: 28
-            }
-        ])
-})
-
-app.get('/about', (req, res) => {
-    res.send('<h1>this is about learning node</h1>')
-})
 
 app.get('/weather', (req, res) => {
     res.send({
