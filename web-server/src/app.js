@@ -43,19 +43,44 @@ app.get('/help', (req, res) => {
 })
 
 app.get('/weather', (req, res) => {
+    if (!req.query.address) {
+        return res.send({
+            error: 'You must provide an address'
+        })
+    }
+     else if (req.query.address === 'buenos aires'){
+         return res.send({
+             latitude: -58.4370894,
+             longitude: -34.6075682,
+             location: 'Buenos Aires, Argentina',
+             forecast: [ [ 'Partly cloudy' ], 26, 27 ],
+             address: req.query.address
+           })
+
+     } else {
+        return  res.send({
+            error: 'Address not found'
+        })
+     }
+})
+
+app.get('/products', (req, res) => {
+    if (!req.query.search) {
+        return res.send({
+            error: 'You must provide a search term'
+        })
+    }
+    console.log(req.query.search)
     res.send({
-        latitude: -58.4370894,
-        longitude: -34.6075682,
-        location: 'Buenos Aires, Argentina',
-        forecast: [ [ 'Partly cloudy' ], 26, 27 ]
-      })
+        products: []
+    })
 })
 
 app.get('/help/*', (req, res) => {
     res.render('404', {
         title: '404',
         name: 'Alejo',
-        message404:'Help article not found'
+        message404: 'Help article not found'
     })
 })
 
