@@ -60,27 +60,73 @@ const uri = "mongodb://127.0.0.1:27017";
 // Create a new client and connect to MongoDB
 const client = new MongoClient(uri);
 
-async function run() {
-  try {
-    // Connect to the "insertDB" database and access its "haiku" collection
-    const database = client.db("task-manager");
-    const users = database.collection("users");
-    
-    // Create a document to insert
-    const user = {
-      name: "Alejo",
-      age: 35,
-    }
-    // Insert the defined document into the "haiku" collection
-    const result = await users.insertOne(user);
+// async function run() {
+//     try {
+//         // Connect to the "insertDB" database and access its "haiku" collection
+//         const database = client.db("task-manager");
+//         const users = database.collection("users");
 
-    // Print the ID of the inserted document
-    console.log(`A new user was inserted with the _id: ${result.insertedId}`);
-  } finally {
-     // Close the MongoDB client connection
-    await client.close();
-  }
+//         // Create a document to insert
+//         const userData = [
+//             {
+//                 name: "Nati",
+//                 age: 31,
+//             },
+//             {
+//                 name: "Celine",
+//                 age: 28,
+//             },
+//             {
+//                 name: "Neko",
+//                 age: 2,
+//             }
+//         ]
+        
+//         const result = await users.insertMany(userData);
+
+//         // Print the ID of the inserted document
+//         console.log(result);
+//         console.log(`A new user was inserted with the _id: ${result.insertedIds}`);
+//     } finally {
+//         // Close the MongoDB client connection
+//         await client.close();
+//     }
+// }
+// // Run the function and handle any errors
+// run().catch(console.dir);
+
+
+async function run() {
+    try {
+        // Connect to the "insertDB" database and access its "haiku" collection
+        const database = client.db("task-manager");
+        const tasks = database.collection("tasks");
+
+        // Create a document to insert
+        const taskData = [
+            {
+                description: "Clean",
+                completed: true,
+            },
+            {
+                description: "Sleep",
+                completed: false,
+            },
+            {
+                description: "Eat",
+                completed: true,
+            }
+        ]
+        
+        const result = await tasks.insertMany(taskData);
+
+        // Print the ID of the inserted document
+        console.log(result);
+        //console.log(`the next tasks were inserted with the _ids: ${result.insertedIds}`);
+    } finally {
+        // Close the MongoDB client connection
+        await client.close();
+    }
 }
 // Run the function and handle any errors
 run().catch(console.dir);
-
