@@ -54,8 +54,6 @@
 
 const { MongoClient, ObjectId } = require("mongodb");
 
-const id = new ObjectId()
-console.log(id.toString().length);
 
 // Replace the uri string with your MongoDB deployment's connection string.
 const uri = "mongodb://127.0.0.1:27017";
@@ -76,7 +74,7 @@ const client = new MongoClient(uri);
 //                 name: "Gouda",
 //                 age: 0,
 //             }
-        
+
 //         const result = await users.insertOne(userData);
 
 //         // Print the ID of the inserted document
@@ -112,7 +110,7 @@ const client = new MongoClient(uri);
 //                 age: 2,
 //             }
 //         ]
-        
+
 //         const result = await users.insertMany(userData);
 
 //         // Print the ID of the inserted document
@@ -148,7 +146,7 @@ const client = new MongoClient(uri);
 //                 completed: true,
 //             }
 //         ]
-        
+
 //         const result = await tasks.insertMany(taskData);
 
 //         // Print the ID of the inserted document
@@ -161,3 +159,79 @@ const client = new MongoClient(uri);
 // }
 // // Run the function and handle any errors
 // run().catch(console.dir);
+
+
+// //---------FindOne-------
+// async function run() {
+//     try {
+
+//       // Get the database and collection on which to run the operation
+//       const database = client.db("task-manager");
+//       const users = database.collection("users");
+//       // Query for a movie that has the title 'The Room'
+//       const query = { name: "Alejo" };
+//       const options = {
+//         // Sort matched documents in descending order by rating
+//         sort: { "name": -1 },
+
+//         projection: { _id: 0, name: 1},
+//       };
+//       // Execute query
+//       const user = await users.findOne(query, options);
+//       // Print the document returned by findOne()
+//       console.log(user);
+//     } finally {
+//       await client.close();
+//     }
+//   }
+//   run().catch(console.dir);
+
+//---------Find-------
+async function run() {
+    try {
+
+        // Get the database and collection on which to run the operation
+        const database = client.db("task-manager");
+        const users = database.collection("users");
+
+        const user = await users.find({}).toArray((error, users) => {
+        });
+        
+        const count = await users.countDocuments({});
+        console.log(user);
+        console.log(count);
+
+    } finally {
+        await client.close();
+    }
+}
+run().catch(console.dir);
+
+
+//-----FindOne by Id and Find not completed tasks--------
+async function run() {
+    try {
+        // Get the database and collection on which to run the operation
+        const database = client.db("task-manager");
+        const tasks = database.collection("tasks");
+
+        // Find the last document inserted by sorting based on the _id field in descending order
+        const lastInsertedDocument = await tasks.findOne({}, { sort: { _id: -1 } });
+
+        // Find not completed tasks
+        const notCompleted = await tasks.find({ completed: false }).toArray();
+
+        if (lastInsertedDocument && notCompleted) {
+            console.log("Last Inserted Document:", lastInsertedDocument);
+            console.log("The not completed tasks are:", notCompleted[0].description);
+        } else {
+            console.log("No documents found.");
+        }
+
+    } finally {
+        await client.close();
+    }
+}
+
+run().catch(console.dir);
+
